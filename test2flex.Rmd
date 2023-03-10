@@ -1,0 +1,113 @@
+---
+title: "CUH Envrionmental Science Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    vertical_layout: scroll
+    orientation: rows
+    social: menu
+    source_code: embed
+    theme: paper
+runtime: shiny
+---
+
+```{r global, include=FALSE}
+# load data in 'global' chunk so it can be shared by all users of the dashboard
+library(ggplot2)
+# library(mgcv)
+library(shiny)
+library(flexdashboard)
+library(tidyverse)
+library(here)
+library(shinydashboard)
+
+library(plotly)
+
+library(rsconnect)
+
+options(scipen = 99)
+```
+
+
+
+```{r}
+
+# Load the dataset
+dataset <- read_csv(here("pH_dissolved_oxygen_conductivity_data.csv"))
+
+# Convert Date_Time to a date-time object
+#dataset$Date_Time <- as.POSIXct(dataset$Date_Time, format = "%Y-%m-%dT%H:%M:%SZ")
+
+dataset <- dataset %>% 
+  select(pH, Date_Time, High_Range_micro_siemens_per_centimeter, Low_Range_micro_siemens_per_centimeter, Dissolved_Oxygen_Concentration, Temp_Celcius)
+
+dataset <- dataset %>% 
+  pivot_longer(cols = c(pH, Dissolved_Oxygen_Concentration, Temp_Celcius, High_Range_micro_siemens_per_centimeter,Low_Range_micro_siemens_per_centimeter ),
+               names_to = "Environmental_Variable", values_to = "Value")
+
+# Get unique values for Environmental_Variable
+unique_vars <- unique(dataset$Environmental_Variable)
+
+
+```
+
+```{r}
+selectInput("var_select", label = "Select Variable:", choices = unique_vars)
+
+
+```
+
+
+```{r}
+# Filter the dataset based on the user's selection
+filtered_data <- reactive({
+  dataset %>% filter(Environmental_Variable == input$var_select)
+})
+
+# Create an interactive plot
+output$plot <- renderPlotly({
+  ggplotly(
+    ggplot(filtered_data(), aes(Date_Time, Value)) +
+      geom_line(color = "steelblue") +
+      labs(x = "Date Time", y = "Value", title = paste(input$var_select, "Kalauhahihai, October - November 2022"),
+ ) +
+      theme_minimal()
+  )
+})
+
+
+
+# Display the interactive plot
+plotlyOutput("plot")
+
+
+```
+
+
+App
+=======================================================================
+
+
+
+```{r}
+
+ # Create a faceted plot of the dataset
+output$faceted_plot <- renderPlotly({
+    ggplotly(
+      ggplot(dataset, aes(Date_Time, Value, color = Environmental_Variable)) +
+        geom_line() +
+        facet_wrap(~ Environmental_Variable, scales = "free") +
+        labs(x = "Date Time", y = "Value")
+    ) 
+  })
+  
+
+
+plotlyOutput("faceted_plot")
+
+
+```
+
+
+
+
+

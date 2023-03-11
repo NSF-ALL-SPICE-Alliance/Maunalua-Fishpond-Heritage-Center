@@ -155,6 +155,3 @@ plotlyOutput("kanewai_range_plot")
 ```
 
 
-
-
-

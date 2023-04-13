@@ -1,0 +1,202 @@
+---
+title: "ENV 415 Lab 3"
+author: "Connor"
+date: "4/12/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(plotly)
+library(janitor)
+library(lubridate)
+```
+
+
+Read in Data
+
+```{r}
+conductivity <- read_csv(here("data_lab/conductivity_spring2023.csv"))
+
+oxygen_green <- read_csv(here("data_lab/oxygen_green_spring2023.csv"))
+
+oxygen_yellow <- read_csv(here("data_lab/oxygen_yellow_spring2023.csv"))
+
+pH <- read_csv("data_lab/pH_spring2023.csv")
+```
+
+Make the first row of data the column names
+
+```{r}
+conductivity <- conductivity %>%
+  row_to_names(row_number = 1)
+
+oxygen_green <- oxygen_green %>%
+  row_to_names(row_number = 1)
+
+oxygen_yellow <- oxygen_yellow %>%
+  row_to_names(row_number = 1)
+
+```
+
+Clean column names
+
+```{r}
+conductivity <- conductivity %>%
+  clean_names()
+
+oxygen_green <- oxygen_green %>%
+  clean_names()
+
+oxygen_yellow <- oxygen_yellow %>%
+  clean_names()
+
+pH <- pH %>% 
+  clean_names()
+```
+
+
+Change column names conductivity
+
+```{r}
+colnames(conductivity)[which(names(conductivity) == "low_range_m_s_cm_lgr_s_n_21415543_sen_s_n_21415543")] <- "low_range_microSiemens"
+
+colnames(conductivity)[which(names(conductivity) == "high_range_m_s_cm_lgr_s_n_21415543_sen_s_n_21415543")] <- "high_range_microSiemens"
+
+colnames(conductivity)[which(names(conductivity) == "temp_c_lgr_s_n_21415543_sen_s_n_21415543")] <- "temp_celsius"
+
+colnames(conductivity)[which(names(conductivity) == "date_time_gmt_10_00")] <- "date_time"
+
+
+
+```
+
+Change column names oxygen green 
+
+```{r}
+colnames(oxygen_green)[which(names(oxygen_green) == "do_conc_mg_l_lgr_s_n_21446085_sen_s_n_21446085")] <- "dissolved_oxygen_mg_l"
+
+colnames(oxygen_green)[which(names(oxygen_green) == "temp_c_lgr_s_n_21446085_sen_s_n_21446085")] <- "temp_celsius"
+
+colnames(oxygen_green)[which(names(oxygen_green) == "date_time_gmt_10_00")] <- "date_time"
+
+```
+
+Change column names oxygen yellow
+
+```{r}
+colnames(oxygen_yellow)[which(names(oxygen_yellow) == "do_conc_mg_l_lgr_s_n_21515403_sen_s_n_21515403")] <- "dissolved_oxygen_mg_l"
+
+colnames(oxygen_yellow)[which(names(oxygen_yellow) == "temp_c_lgr_s_n_21515403_sen_s_n_21515403")] <- "temp_celsius"
+
+colnames(oxygen_yellow)[which(names(oxygen_yellow) == "date_time_gmt_10_00")] <- "date_time"
+```
+
+Change column names pH
+
+```{r}
+colnames(pH)[which(names(pH) == "ch_3_p_h_p_h")] <- "pH"
+
+colnames(pH)[which(names(pH) == "ch_1_temperature_c")] <- "temp_celsius"
+
+colnames(pH)[which(names(pH) == "date_time_hst")] <- "date_time"
+```
+
+
+Select relevant columns
+
+```{r}
+conductivity <- conductivity %>% 
+  select(date_time, low_range_microSiemens, high_range_microSiemens, temp_celsius)
+
+oxygen_green <- oxygen_green %>% 
+  select(date_time, dissolved_oxygen_mg_l, temp_celsius)
+
+oxygen_yellow <- oxygen_yellow %>% 
+  select(date_time, dissolved_oxygen_mg_l, temp_celsius)
+
+pH <- pH %>% 
+  select(date_time, pH, temp_celsius)
+```
+
+
+
+Change date column from class - character to class - date
+
+
+```{r}
+conductivity$date_time <- mdy_hms(conductivity$date_time)
+
+oxygen_green$date_time <- mdy_hms(oxygen_green$date_time)
+
+oxygen_yellow$date_time <- mdy_hms(oxygen_yellow$date_time)
+
+pH$date_time <- mdy_hms(pH$date_time)
+
+```
+
+Numeric measures
+
+```{r}
+conductivity$low_range_microSiemens <- as.numeric(conductivity$low_range_microSiemens)
+
+conductivity$high_range_microSiemens <- as.numeric(conductivity$high_range_microSiemens)
+
+conductivity$temp_celsius <- as.numeric(conductivity$temp_celsius)
+
+oxygen_green$dissolved_oxygen_mg_l <- as.numeric(oxygen_green$dissolved_oxygen_mg_l)
+
+oxygen_green$temp_celsius <- as.numeric(oxygen_green$temp_celsius)
+
+oxygen_yellow$dissolved_oxygen_mg_l <- as.numeric(oxygen_yellow$dissolved_oxygen_mg_l)
+
+oxygen_yellow$temp_celsius <- as.numeric(oxygen_yellow$temp_celsius)
+
+```
+
+
+
+Plot Conductivity 
+
+```{r}
+conductivity_plot <- ggplot(data = conductivity, aes(x = date_time, 
+                                                      y = low_range_microSiemens)) + 
+  geom_line() +
+  theme_minimal() +
+  labs(title = "Low Range microSiemens (uS/cm)",
+       x = "Date & Time",
+       y = "low range microSiemens (uS/cm)")
+  
+
+conductivity_plot
+```
+
+```{r}
+ggplotly(conductivity_plot)
+```
+
+```{r}
+conductivity_trimmed <- conductivity %>% 
+  filter(date_time >= ymd("2023-02-17") & date_time <= ymd("2023-04-05"))
+  
+```
+
+
+```{r}
+conductivity_trimmed_plot <- ggplot(data = conductivity_trimmed, aes(x = date_time, 
+                                                      y = low_range_microSiemens)) + 
+  geom_line() +
+  theme_minimal() +
+  labs(title = "Low Range microSiemens (uS/cm)",
+       x = "Date & Time",
+       y = "low range microSiemens (uS/cm)")
+  
+
+conductivity_trimmed_plot
+```
+```{r}
+ggplotly(conductivity_trimmed_plot)
+```
+

@@ -1,0 +1,21 @@
+---
+title: "Data Processing Kalauhaihai"
+author: "Connor"
+date: "5/17/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(janitor)
+library(lubridate)
+```
+
+
+```{r}
+conductivity_kalauhaihai_garage_FebApr2023 <- read_csv(here("raw_data/kalauhaihai/data_conductivity_FebApr2023_KalauhaihaiGarage_21415543.csv"))
+```
+
+

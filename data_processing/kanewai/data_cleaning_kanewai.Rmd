@@ -1,0 +1,19 @@
+---
+title: "Data Processing Kanewai"
+author: "Connor"
+date: "5/17/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(janitor)
+library(lubridate)
+```
+
+```{r}
+conductivity_kanewai_spring_rock_feb_apr_2023 <- read_csv(here("raw_data/kanewai/data_conductivity_FebApr2023_ KanewaiSpringRock_21415544.csv"))
+```
+

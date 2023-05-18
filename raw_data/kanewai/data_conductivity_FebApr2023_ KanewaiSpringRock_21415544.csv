@@ -1,5 +1,4 @@
-﻿"Plot Title: 21415544"
-"#","Date Time, GMT-10:00","High Range, μS/cm (LGR S/N: 21415544, SEN S/N: 21415544)","Temp, °C (LGR S/N: 21415544, SEN S/N: 21415544)","Coupler Detached (LGR S/N: 21415544)","Coupler Attached (LGR S/N: 21415544)","Host Connected (LGR S/N: 21415544)","Stopped (LGR S/N: 21415544)","End Of File (LGR S/N: 21415544)"
+#,"Date Time, GMT-10:00","High Range, μS/cm (LGR S/N: 21415544, SEN S/N: 21415544)","Temp, °C (LGR S/N: 21415544, SEN S/N: 21415544)",Coupler Detached (LGR S/N: 21415544),Coupler Attached (LGR S/N: 21415544),Host Connected (LGR S/N: 21415544),Stopped (LGR S/N: 21415544),End Of File (LGR S/N: 21415544)
 1,02/09/23 01:00:00,0.0,24.65,Logged,,,,
 2,02/09/23 01:10:00,0.0,24.61,,,,,
 3,02/09/23 01:20:00,0.0,24.57,,,,,

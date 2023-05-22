@@ -11,6 +11,7 @@ library(tidyverse)
 library(here)
 library(janitor)
 library(lubridate)
+library(readr)
 ```
 
 
@@ -18,4 +19,51 @@ library(lubridate)
 conductivity_kalauhaihai_garage_FebApr2023 <- read_csv(here("raw_data/kalauhaihai/data_conductivity_FebApr2023_KalauhaihaiGarage_21415543.csv"))
 ```
 
+```{r}
+conductivity_kalauhaihai_OctNov2022 <- read_tsv(here("raw_data/kalauhaihai/data_conductivity_Kalauhaihai_Oct-Nov2022.txt"))
+```
+```{r}
+oxygen_kalauhaihai_garage_FebApr2023 <- read_csv(here("raw_data/kalauhaihai/Data_oxygen_FebApr2023_KalauhaihaiGarage_21446085.csv"))
+```
 
+```{r}
+rm(oxygen)
+```
+removed an oxygen data set with the header
+
+```{r}
+oxygen_kalauhaihai_OctNov2022 <- read_tsv(here("raw_data/kalauhaihai/data_oxygen_Kalauhaihai_Oct-Nov2022.txt"))
+```
+
+```{r}
+pH_kalauhaihai_garage_FebApr2023 <- read_csv(here("raw_data/kalauhaihai/data_pH_FebApr2023_KalauhaihaiGarage_20839036.csv"))
+```
+
+```{r}
+pH_kalauhaihai_OctNov2022 <-
+  read_tsv(here("raw_data/kalauhaihai/data_pH_Kalauhaihai_SN20839036_Oct-Nov2022.txt"))
+```
+
+```{r}
+pH_kalauhaihai_Apr2022 <-
+  read_tsv(here("raw_data/kalauhaihai/data_pH_Kalauhaihai_SN20839036_Apr2022.txt"), skip = 1)
+```
+
+```{r}
+rm(temp_kalauhaihai_garage_Spring_2022)
+```
+```{r}
+rm(fltrd_temp_kalauhaihai_garage_Spring_2022)
+```
+remove codes for temp and fltrd_temp
+
+```{r}
+raw_temp_kalauhaihai_garage_Spring_2022 <- read.csv(here("raw_data/kalauhaihai/data_temp_Kalauhaihai_Garage_Spring_2022.csv"), header = TRUE)
+```
+sets the first line as a header, Im not sure if this is truly needed. HOWEVER, I imported with the name raw_temp because the format is really weird. 
+
+```{r}
+temp_kalauhaihai_garage_Spring_2022 <- raw_temp_kalauhaihai_garage_Spring_2022[seq(2, nrow(raw_temp_kalauhaihai_garage_Spring_2022), by = 2), ]
+```
+This code skips every EVEN line. In the raw data, there was an empty line between each 
+element. 

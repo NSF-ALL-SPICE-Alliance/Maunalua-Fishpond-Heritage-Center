@@ -17,3 +17,31 @@ library(lubridate)
 conductivity_kanewai_spring_rock_feb_apr_2023 <- read_csv(here("raw_data/kanewai/data_conductivity_FebApr2023_ KanewaiSpringRock_21415544.csv"))
 ```
 
+```{r}
+oxygen_kanewai_spring_rock_feb_apr_2023 <- read_csv(here("raw_data/kanewai/data_oxygen_FebApr2023_KanewaiSpringRock_21515403.csv"))
+```
+
+```{r}
+pH_kanewai_spring_rock_feb_apr_2023 <- read_csv(here("raw_data/kanewai/data_pH_FebApr2023_KanewaiSpringRock_21433529.csv"))
+```
+
+```{r}
+temp_kanewai_springledge_feb_apr_2023 <- read_csv(here("raw_data/kanewai/data_temp_FebApr2023_KanewaiSpringLedge_20970092.csv"))
+```
+
+```{r}
+temp_kanewai_springledge_norfolk_feb_apr_2023 <- read_csv(here("raw_data/kanewai/data_temp_FebApr2023_KanewaiFishpondLedgeEdgeNorfolk_20970108.csv"))
+```
+
+```{r}
+temp_kanewai_xmasberry_feb_apr_2023 <- read_csv(here("raw_data/kanewai/data_temp_FebApr2023_KanewaiFishpondShadeUnderXmasBerry_21445019.csv"))
+```
+
+```{r}
+temp_kanewai_spring_coconuttree_2022 <- read_csv(here("raw_data/kanewai/data_temp_Kanewai_Cocunut_Tree_Spring_2022.csv"))
+```
+
+```{r}
+temp_kanewai_spring_auwai_2022 <- read_csv(here("raw_data/kanewai/data_temp_Kanewai_Auwai_Spring_2022.csv"))
+```
+

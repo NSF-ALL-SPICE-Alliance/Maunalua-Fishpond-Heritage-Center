@@ -95,3 +95,16 @@ conductivity_kalauhaihai_garage_FebApr2023 <- conductivity_kalauhaihai_garage_Fe
   select(date_time, low_range_microSiemens, high_range_microSiemens, temp_celsius)
 ```
 
+```{r}
+temp_kalauhaihai_garage_Spring_2022 <- temp_kalauhaihai_garage_Spring_2022 %>% 
+  clean_names()
+
+colnames(temp_kalauhaihai_garage_Spring_2022)[which(names(temp_kalauhaihai_garage_Spring_2022) == "date_time_gmt_10_00")] <- "date_time"
+
+colnames(temp_kalauhaihai_garage_Spring_2022)[which(names(temp_kalauhaihai_garage_Spring_2022) == "temp_c_lgr_s_n_20970094_sen_s_n_20970094")] <- "temp_celsius"
+
+temp_kalauhaihai_garage_Spring_2022 <- temp_kalauhaihai_garage_Spring_2022 %>% 
+  select(date_time, temp_celsius)
+
+```
+

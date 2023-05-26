@@ -16,11 +16,15 @@ library(readr)
 
 
 Reading in Data
-
+As of May 25, 8 Data Files read in
+  - 2 Conductivity
+  - 2 Oxygen
+  - 3 pH
+  - 1 Temperature
+  
 ```{r}
 conductivity_kalauhaihai_garage_FebApr2023 <- read_csv(here("raw_data/kalauhaihai/data_conductivity_FebApr2023_KalauhaihaiGarage_21415543.csv"))
 ```
-
 
 ```{r}
 conductivity_kalauhaihai_OctNov2022 <- read_tsv(here("raw_data/kalauhaihai/data_conductivity_Kalauhaihai_Oct-Nov2022.txt"))
@@ -29,9 +33,6 @@ conductivity_kalauhaihai_OctNov2022 <- read_tsv(here("raw_data/kalauhaihai/data_
 ```{r}
 oxygen_kalauhaihai_garage_FebApr2023 <- read_csv(here("raw_data/kalauhaihai/Data_oxygen_FebApr2023_KalauhaihaiGarage_21446085.csv"))
 ```
-
-
-removed an oxygen data set with the header
 
 ```{r}
 oxygen_kalauhaihai_OctNov2022 <- read_tsv(here("raw_data/kalauhaihai/data_oxygen_Kalauhaihai_Oct-Nov2022.txt"))
@@ -52,9 +53,6 @@ pH_kalauhaihai_Apr2022 <-
 ```
 
 
-
-
-
 ```{r}
 raw_temp_kalauhaihai_garage_Spring_2022 <- read.csv(here("raw_data/kalauhaihai/data_temp_Kalauhaihai_Garage_Spring_2022.csv"), header = TRUE)
 ```
@@ -64,12 +62,13 @@ sets the first line as a header, Im not sure if this is truly needed. HOWEVER, I
 temp_kalauhaihai_garage_Spring_2022 <- raw_temp_kalauhaihai_garage_Spring_2022[seq(2, nrow(raw_temp_kalauhaihai_garage_Spring_2022), by = 2), ]
 ```
 This code skips every EVEN line. In the raw data, there was an empty line between each 
-element. 
+element. temp_kalauhaihai_garage_Spring_2022 is the main data set
 
 
 Data Cleaning 
 
 ```{r}
+#Conductivity kalauhaihai, garage, FEB_APR 2023
 
 # Clean Column Names
 
@@ -96,6 +95,143 @@ conductivity_kalauhaihai_garage_FebApr2023 <- conductivity_kalauhaihai_garage_Fe
 ```
 
 ```{r}
+#Combine Date and Time Column/// FIXED
+#Conductivity kalauhaihai, OCT_NOV 2022
+
+# Clean Column Names
+
+
+conductivity_kalauhaihai_OctNov2022 <- conductivity_kalauhaihai_OctNov2022 %>% 
+  clean_names()
+
+
+# Edit cleaned column names
+
+colnames(conductivity_kalauhaihai_OctNov2022)[which(names(conductivity_kalauhaihai_OctNov2022) == "low_range_micro_siemens")] <- "low_range_microSiemens"
+
+colnames(conductivity_kalauhaihai_OctNov2022)[which(names(conductivity_kalauhaihai_OctNov2022) == "high_range_m_s_cm_c_1_3")] <- "high_range_microSiemens"
+
+colnames(conductivity_kalauhaihai_OctNov2022)[which(names(conductivity_kalauhaihai_OctNov2022) == "temp_c_c_3")] <- "temp_celsius"
+
+#Combine date and time columns
+conductivity_kalauhaihai_OctNov2022 <- conductivity_kalauhaihai_OctNov2022 %>%
+  unite(date_time, date, time, sep = " ")
+
+#change class to charachter
+conductivity_kalauhaihai_OctNov2022$date_time <- mdy_hms(conductivity_kalauhaihai_OctNov2022$date_time)
+
+#Select Colums
+
+conductivity_kalauhaihai_OctNov2022 <- conductivity_kalauhaihai_OctNov2022 %>% 
+  select(date_time, low_range_microSiemens, high_range_microSiemens, temp_celsius)
+
+```
+
+```{r}
+#Oxygen kalauhaihai, garage, FEB_APR 2023
+
+#Clean Column Names
+colnames(oxygen_kalauhaihai_garage_FebApr2023)[which(names(oxygen_kalauhaihai_garage_FebApr2023) == "DO conc, mg/L (LGR S/N: 21446085, SEN S/N: 21446085)")] <- "dissolved_oxygen_mg_l"
+
+colnames(oxygen_kalauhaihai_garage_FebApr2023)[which(names(oxygen_kalauhaihai_garage_FebApr2023) == "Temp, °C (LGR S/N: 21446085, SEN S/N: 21446085)")] <- "temp_celsius"
+
+colnames(oxygen_kalauhaihai_garage_FebApr2023)[which(names(oxygen_kalauhaihai_garage_FebApr2023) == "Date Time, GMT-10:00")] <- "date_time"
+
+#Select Columns
+oxygen_kalauhaihai_garage_FebApr2023 <- oxygen_kalauhaihai_garage_FebApr2023 %>%
+  select(date_time, dissolved_oxygen_mg_l, temp_celsius)
+```
+
+```{r}
+#Combine Date and Time Column/// FIXED
+#Oxygen kalauhaihai, garage, OCT_NOV 2022
+
+#Clean Column Names
+colnames(oxygen_kalauhaihai_OctNov2022)[which(names(oxygen_kalauhaihai_OctNov2022) == "DO conc (mg/L) c:1 2")] <- "dissolved_oxygen_mg_l"
+
+colnames(oxygen_kalauhaihai_OctNov2022)[which(names(oxygen_kalauhaihai_OctNov2022) == "Temp (°C) c:2")] <- "temp_celsius"
+
+#Combine date and time columns
+oxygen_kalauhaihai_OctNov2022 <- oxygen_kalauhaihai_OctNov2022 %>%
+  unite(date_time, Date, Time, sep = " ")
+
+#Select Columns
+oxygen_kalauhaihai_OctNov2022 <- oxygen_kalauhaihai_OctNov2022 %>%
+  select(date_time, dissolved_oxygen_mg_l, temp_celsius)
+```
+
+```{r}
+#pH, kalauhaihai, APR 2022
+#date_time class is "dttm"
+
+# Clean names
+
+pH_kalauhaihai_Apr2022 <- pH_kalauhaihai_Apr2022 %>% 
+  clean_names()
+
+#Change column names
+
+colnames(pH_kalauhaihai_Apr2022)[which(names(pH_kalauhaihai_Apr2022) == "p_h")] <- "pH"
+
+colnames(pH_kalauhaihai_Apr2022)[which(names(pH_kalauhaihai_Apr2022) == "m_v")] <- "mv"
+
+colnames(pH_kalauhaihai_Apr2022)[which(names(pH_kalauhaihai_Apr2022) == "temp_c")] <- "temp_celsius"
+
+colnames(pH_kalauhaihai_Apr2022)[which(names(pH_kalauhaihai_Apr2022) == "date_time_gmt_1000")] <- "date_time"
+
+pH_kalauhaihai_Apr2022 <- pH_kalauhaihai_Apr2022 %>%
+  select(date_time, temp_celsius, mv, pH)
+```
+
+```{r}
+#pH, kalauhaihai, FEB_APR 2023
+
+# Clean names
+
+pH_kalauhaihai_garage_FebApr2023 <- pH_kalauhaihai_garage_FebApr2023 %>% 
+  clean_names()
+
+#Change column names
+
+colnames(pH_kalauhaihai_garage_FebApr2023)[which(names(pH_kalauhaihai_garage_FebApr2023) == "ch_3_p_h_p_h")] <- "pH"
+
+colnames(pH_kalauhaihai_garage_FebApr2023)[which(names(pH_kalauhaihai_garage_FebApr2023) == "ch_2_millivolts_mv")] <- "mv"
+
+colnames(pH_kalauhaihai_garage_FebApr2023)[which(names(pH_kalauhaihai_garage_FebApr2023) == "ch_1_temperature_c")] <- "temp_celsius"
+
+colnames(pH_kalauhaihai_garage_FebApr2023)[which(names(pH_kalauhaihai_garage_FebApr2023) == "date_time_hst")] <- "date_time"
+
+pH_kalauhaihai_garage_FebApr2023 <- pH_kalauhaihai_garage_FebApr2023 %>%
+  select(date_time, temp_celsius, mv, pH)
+
+```
+
+```{r}
+#Combine Date and Time Column/// FIXED
+#pH, kalauhaihai, OCT_NOV 2022
+
+#Change column names
+
+colnames(pH_kalauhaihai_OctNov2022)[which(names(pH_kalauhaihai_OctNov2022) == "pH c:4")] <- "pH"
+
+colnames(pH_kalauhaihai_OctNov2022)[which(names(pH_kalauhaihai_OctNov2022) == "mV (mv) c:2")] <- "mv"
+
+colnames(pH_kalauhaihai_OctNov2022)[which(names(pH_kalauhaihai_OctNov2022) == "Temp (°C) c:1")] <- "temp_celsius"
+
+#Combine date and time columns
+pH_kalauhaihai_OctNov2022 <- pH_kalauhaihai_OctNov2022 %>%
+  unite(date_time, Date, Time, sep = " ")
+
+#Select Columns
+pH_kalauhaihai_OctNov2022 <- pH_kalauhaihai_OctNov2022 %>%
+  select(date_time, temp_celsius, mv, pH)
+
+```
+
+```{r}
+#temp, kalauhaihai, garage, Spring 2022
+
+#Change column names
 temp_kalauhaihai_garage_Spring_2022 <- temp_kalauhaihai_garage_Spring_2022 %>% 
   clean_names()
 
@@ -103,6 +239,7 @@ colnames(temp_kalauhaihai_garage_Spring_2022)[which(names(temp_kalauhaihai_garag
 
 colnames(temp_kalauhaihai_garage_Spring_2022)[which(names(temp_kalauhaihai_garage_Spring_2022) == "temp_c_lgr_s_n_20970094_sen_s_n_20970094")] <- "temp_celsius"
 
+#Select columns
 temp_kalauhaihai_garage_Spring_2022 <- temp_kalauhaihai_garage_Spring_2022 %>% 
   select(date_time, temp_celsius)
 

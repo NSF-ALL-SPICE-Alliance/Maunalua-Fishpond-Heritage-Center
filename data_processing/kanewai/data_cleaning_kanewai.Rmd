@@ -11,8 +11,18 @@ library(tidyverse)
 library(here)
 library(janitor)
 library(lubridate)
+library(readr)
 ```
 
+
+
+Reading in Data
+As of May 25, 8 Data Files read in
+  - 1 Conductivity
+  - 1 Oxygen
+  - 1 pH
+  - 5 Temperature
+  
 ```{r}
 conductivity_kanewai_spring_rock_feb_apr_2023 <- read_csv(here("raw_data/kanewai/data_conductivity_FebApr2023_ KanewaiSpringRock_21415544.csv"))
 ```
@@ -45,3 +55,134 @@ temp_kanewai_spring_coconuttree_2022 <- read_csv(here("raw_data/kanewai/data_tem
 temp_kanewai_spring_auwai_2022 <- read_csv(here("raw_data/kanewai/data_temp_Kanewai_Auwai_Spring_2022.csv"))
 ```
 
+Data Cleaning 
+
+```{r}
+#Conductivity kanewai, spring rock, FEB_APR 2023
+
+# Clean Column Names
+
+conductivity_kanewai_spring_rock_feb_apr_2023 <- conductivity_kanewai_spring_rock_feb_apr_2023 %>% 
+  clean_names()
+
+# Edit cleaned column names
+
+colnames(conductivity_kanewai_spring_rock_feb_apr_2023)[which(names(conductivity_kanewai_spring_rock_feb_apr_2023) == "high_range_m_s_cm_lgr_s_n_21415544_sen_s_n_21415544")] <- "high_range_microSiemens"
+
+colnames(conductivity_kanewai_spring_rock_feb_apr_2023)[which(names(conductivity_kanewai_spring_rock_feb_apr_2023) == "temp_c_lgr_s_n_21415544_sen_s_n_21415544")] <- "temp_celsius"
+
+colnames(conductivity_kanewai_spring_rock_feb_apr_2023)[which(names(conductivity_kanewai_spring_rock_feb_apr_2023) == "date_time_gmt_10_00")] <- "date_time"
+
+
+# Select relevant columns 
+
+conductivity_kanewai_spring_rock_feb_apr_2023 <- conductivity_kanewai_spring_rock_feb_apr_2023 %>% 
+  select(date_time, high_range_microSiemens, temp_celsius)
+
+```
+
+```{r}
+#Oxygen kanewai, spring rock, FEB_APR 2023
+
+#Change column names
+
+colnames(oxygen_kanewai_spring_rock_feb_apr_2023)[which(names(oxygen_kanewai_spring_rock_feb_apr_2023) == "DO conc, mg/L (LGR S/N: 21515403, SEN S/N: 21515403)")] <- "dissolved_oxygen_mg_l"
+
+colnames(oxygen_kanewai_spring_rock_feb_apr_2023)[which(names(oxygen_kanewai_spring_rock_feb_apr_2023) == "Temp, °C (LGR S/N: 21515403, SEN S/N: 21515403)")] <- "temp_celsius"
+
+colnames(oxygen_kanewai_spring_rock_feb_apr_2023)[which(names(oxygen_kanewai_spring_rock_feb_apr_2023) == "Date Time, GMT-10:00")] <- "date_time"
+
+#Select Columns
+oxygen_kanewai_spring_rock_feb_apr_2023 <- oxygen_kanewai_spring_rock_feb_apr_2023 %>%
+  select(date_time, dissolved_oxygen_mg_l, temp_celsius)
+
+```
+
+```{r}
+#pH, kanewai, spring rock, FEB_APR 2023
+
+#Change column names
+
+colnames(pH_kanewai_spring_rock_feb_apr_2023)[which(names(pH_kanewai_spring_rock_feb_apr_2023) == "Ch: 3 - pH   (pH)")] <- "pH"
+
+colnames(pH_kanewai_spring_rock_feb_apr_2023)[which(names(pH_kanewai_spring_rock_feb_apr_2023) == "Ch: 2 - Millivolts   (mv)")] <- "mv"
+
+colnames(pH_kanewai_spring_rock_feb_apr_2023)[which(names(pH_kanewai_spring_rock_feb_apr_2023) == "Ch: 1 - Temperature   (°C)")] <- "temp_celsius"
+
+colnames(pH_kanewai_spring_rock_feb_apr_2023)[which(names(pH_kanewai_spring_rock_feb_apr_2023) == "Date-Time (HST)")] <- "date_time"
+
+#Select column names
+pH_kanewai_spring_rock_feb_apr_2023 <- pH_kanewai_spring_rock_feb_apr_2023 %>%
+  select(date_time, temp_celsius, mv, pH)
+
+```
+
+```{r}
+#temp, kanewai, spring auwai, 2022
+
+#Change column names
+colnames(temp_kanewai_spring_auwai_2022)[which(names(temp_kanewai_spring_auwai_2022) == "Date Time, GMT-10:00")] <- "date_time"
+
+colnames(temp_kanewai_spring_auwai_2022)[which(names(temp_kanewai_spring_auwai_2022) == "Temp, °C (LGR S/N: 20970122, SEN S/N: 20970122)")] <- "temp_celsius"
+
+#select columns
+temp_kanewai_spring_auwai_2022 <- temp_kanewai_spring_auwai_2022 %>% 
+  select(date_time, temp_celsius)
+
+```
+
+```{r}
+#temp, kanewai, spring auwai, 2022
+
+#Change column names
+colnames(temp_kanewai_spring_coconuttree_2022)[which(names(temp_kanewai_spring_coconuttree_2022) == "Date Time, GMT-10:00")] <- "date_time"
+
+colnames(temp_kanewai_spring_coconuttree_2022)[which(names(temp_kanewai_spring_coconuttree_2022) == "Temp, °C (LGR S/N: 20970110, SEN S/N: 20970110)")] <- "temp_celsius"
+
+#select columns
+temp_kanewai_spring_coconuttree_2022 <- temp_kanewai_spring_coconuttree_2022 %>% 
+  select(date_time, temp_celsius)
+
+```
+
+```{r}
+#temp, kanewai, springledge, FEB_APR 2023
+
+#Change column names
+colnames(temp_kanewai_springledge_feb_apr_2023)[which(names(temp_kanewai_springledge_feb_apr_2023) == "Date Time, GMT-10:00")] <- "date_time"
+
+colnames(temp_kanewai_springledge_feb_apr_2023)[which(names(temp_kanewai_springledge_feb_apr_2023) == "Temp, °C (LGR S/N: 20970092, SEN S/N: 20970092)")] <- "temp_celsius"
+
+#select columns
+temp_kanewai_springledge_feb_apr_2023 <- temp_kanewai_springledge_feb_apr_2023 %>% 
+  select(date_time, temp_celsius)
+
+```
+
+```{r}
+#temp, kanewai, springledge norfolk, FEB_APR 2023
+
+#Change column names
+colnames(temp_kanewai_springledge_norfolk_feb_apr_2023)[which(names(temp_kanewai_springledge_norfolk_feb_apr_2023) == "Date Time, GMT-10:00")] <- "date_time"
+
+colnames(temp_kanewai_springledge_norfolk_feb_apr_2023)[which(names(temp_kanewai_springledge_norfolk_feb_apr_2023) == "Temp, °C (LGR S/N: 20970108, SEN S/N: 20970108)")] <- "temp_celsius"
+
+#select columns
+temp_kanewai_springledge_norfolk_feb_apr_2023 <- temp_kanewai_springledge_norfolk_feb_apr_2023 %>% 
+  select(date_time, temp_celsius)
+
+```
+
+```{r}
+#temp, kanewai, xmasberry, FEB_APR 2023
+
+#Change column names
+colnames(temp_kanewai_xmasberry_feb_apr_2023)[which(names(temp_kanewai_xmasberry_feb_apr_2023) == "Date Time, GMT-10:00")] <- "date_time"
+
+colnames(temp_kanewai_xmasberry_feb_apr_2023)[which(names(temp_kanewai_xmasberry_feb_apr_2023) == "Temp, °C (LGR S/N: 21445019, SEN S/N: 21445019)")] <- "temp_celsius"
+
+#select columns
+temp_kanewai_xmasberry_feb_apr_2023 <- temp_kanewai_xmasberry_feb_apr_2023 %>% 
+  select(date_time, temp_celsius)
+
+```

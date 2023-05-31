@@ -88,6 +88,8 @@ colnames(conductivity_kalauhaihai_garage_FebApr2023)[which(names(conductivity_ka
 colnames(conductivity_kalauhaihai_garage_FebApr2023)[which(names(conductivity_kalauhaihai_garage_FebApr2023) == "date_time_gmt_10_00")] <- "date_time"
 
 
+conductivity_kalauhaihai_garage_FebApr2023$date_time <- mdy_hms(conductivity_kalauhaihai_garage_FebApr2023$date_time)
+
 # Select relevant columns 
 
 conductivity_kalauhaihai_garage_FebApr2023 <- conductivity_kalauhaihai_garage_FebApr2023 %>% 
@@ -107,7 +109,7 @@ conductivity_kalauhaihai_OctNov2022 <- conductivity_kalauhaihai_OctNov2022 %>%
 
 # Edit cleaned column names
 
-colnames(conductivity_kalauhaihai_OctNov2022)[which(names(conductivity_kalauhaihai_OctNov2022) == "low_range_micro_siemens")] <- "low_range_microSiemens"
+colnames(conductivity_kalauhaihai_OctNov2022)[which(names(conductivity_kalauhaihai_OctNov2022) == "low_range_m_s_cm_c_1_3")] <- "low_range_microSiemens"
 
 colnames(conductivity_kalauhaihai_OctNov2022)[which(names(conductivity_kalauhaihai_OctNov2022) == "high_range_m_s_cm_c_1_3")] <- "high_range_microSiemens"
 
@@ -137,6 +139,8 @@ colnames(oxygen_kalauhaihai_garage_FebApr2023)[which(names(oxygen_kalauhaihai_ga
 
 colnames(oxygen_kalauhaihai_garage_FebApr2023)[which(names(oxygen_kalauhaihai_garage_FebApr2023) == "Date Time, GMT-10:00")] <- "date_time"
 
+oxygen_kalauhaihai_garage_FebApr2023$date_time <- mdy_hms(oxygen_kalauhaihai_garage_FebApr2023$date_time)
+
 #Select Columns
 oxygen_kalauhaihai_garage_FebApr2023 <- oxygen_kalauhaihai_garage_FebApr2023 %>%
   select(date_time, dissolved_oxygen_mg_l, temp_celsius)
@@ -155,6 +159,8 @@ colnames(oxygen_kalauhaihai_OctNov2022)[which(names(oxygen_kalauhaihai_OctNov202
 oxygen_kalauhaihai_OctNov2022 <- oxygen_kalauhaihai_OctNov2022 %>%
   unite(date_time, Date, Time, sep = " ")
 
+
+oxygen_kalauhaihai_OctNov2022$date_time <- mdy_hms(oxygen_kalauhaihai_OctNov2022$date_time)
 #Select Columns
 oxygen_kalauhaihai_OctNov2022 <- oxygen_kalauhaihai_OctNov2022 %>%
   select(date_time, dissolved_oxygen_mg_l, temp_celsius)
@@ -179,6 +185,8 @@ colnames(pH_kalauhaihai_Apr2022)[which(names(pH_kalauhaihai_Apr2022) == "temp_c"
 
 colnames(pH_kalauhaihai_Apr2022)[which(names(pH_kalauhaihai_Apr2022) == "date_time_gmt_1000")] <- "date_time"
 
+pH_kalauhaihai_Apr2022$date_time <- mdy_hms(pH_kalauhaihai_Apr2022$date_time)
+
 pH_kalauhaihai_Apr2022 <- pH_kalauhaihai_Apr2022 %>%
   select(date_time, temp_celsius, mv, pH)
 ```
@@ -201,6 +209,8 @@ colnames(pH_kalauhaihai_garage_FebApr2023)[which(names(pH_kalauhaihai_garage_Feb
 
 colnames(pH_kalauhaihai_garage_FebApr2023)[which(names(pH_kalauhaihai_garage_FebApr2023) == "date_time_hst")] <- "date_time"
 
+pH_kalauhaihai_garage_FebApr2023$date_time <- mdy_hms(pH_kalauhaihai_garage_FebApr2023$date_time)
+
 pH_kalauhaihai_garage_FebApr2023 <- pH_kalauhaihai_garage_FebApr2023 %>%
   select(date_time, temp_celsius, mv, pH)
 
@@ -222,6 +232,8 @@ colnames(pH_kalauhaihai_OctNov2022)[which(names(pH_kalauhaihai_OctNov2022) == "T
 pH_kalauhaihai_OctNov2022 <- pH_kalauhaihai_OctNov2022 %>%
   unite(date_time, Date, Time, sep = " ")
 
+pH_kalauhaihai_OctNov2022$date_time <- mdy_hms(pH_kalauhaihai_OctNov2022$date_time)
+
 #Select Columns
 pH_kalauhaihai_OctNov2022 <- pH_kalauhaihai_OctNov2022 %>%
   select(date_time, temp_celsius, mv, pH)
@@ -239,6 +251,8 @@ colnames(temp_kalauhaihai_garage_Spring_2022)[which(names(temp_kalauhaihai_garag
 
 colnames(temp_kalauhaihai_garage_Spring_2022)[which(names(temp_kalauhaihai_garage_Spring_2022) == "temp_c_lgr_s_n_20970094_sen_s_n_20970094")] <- "temp_celsius"
 
+
+temp_kalauhaihai_garage_Spring_2022$date_time <- mdy_hms(temp_kalauhaihai_garage_Spring_2022$date_time)
 #Select columns
 temp_kalauhaihai_garage_Spring_2022 <- temp_kalauhaihai_garage_Spring_2022 %>% 
   select(date_time, temp_celsius)

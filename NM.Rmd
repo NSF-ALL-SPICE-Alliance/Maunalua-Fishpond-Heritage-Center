@@ -13,6 +13,7 @@ library(janitor)
 library(lubridate)
 library(readr)
 library(ggplot2)
+library(plotly)
 ```
 
 ```{r}
@@ -21,16 +22,71 @@ ggplot(pH_kalauhaihai_OctNov2022, aes(date_time, pH)) +
 ```
 
 ```{r}
-kanewai_spring_conductivity_plot <- ggplot(data = conductivity_kanewai_spring_rock_feb_apr_2023, aes(x = date_time, 
-                                                      y = high_range_microSiemens)) + 
+
+```
+
+```{r Conductivity Kanewai Spring}
+conductivity_kanspring_trimmed <- conductivity_kanewai_spring_rock_feb_apr_2023 %>% 
+  filter(date_time >= ymd("2023-02-10") & date_time <= ymd("2023-04-05"))
+  
+kanewai_spring_conductivity_plot <- ggplot(data = conductivity_kanspring_trimmed, aes(x = date_time, 
+                                                      y = high_range_micro_siemens)) + 
   geom_line() +
   theme_minimal() +
-  labs(title = "High Range microSiemens (uS/cm)",
+  labs(title = "Kanewai Conductivity Spring",
        x = "Date & Time",
        y = "High range microSiemens (uS/cm)")
   
 
-kanewai_spring_conductivity_plot
+ggplotly(kanewai_spring_conductivity_plot)
+```
+
+```{r Conductivity Kalauhaihai Spring}
+conductivity_kalspring_trimmed <- conductivity_kalauhaihai_garage_FebApr2023 %>% 
+  filter(date_time >= ymd("2023-02-17") & date_time <= ymd("2023-04-05"))
+  
+kalauhaihai_spring_conductivity_plot <- ggplot(data = conductivity_kalspring_trimmed, aes(x = date_time, 
+                                                      y = high_range_microSiemens)) + 
+  geom_line() +
+  theme_minimal() +
+  labs(title = "Kalauhaihai Conductivity Spring",
+       x = "Date & Time",
+       y = "High range microSiemens (uS/cm)")
+  
+
+ggplotly(kalauhaihai_spring_conductivity_plot)
+```
+
+```{r Oxygen Kanewai Spring}
+oxygen_kanspring_trimmed <- oxygen_kanewai_spring_rock_feb_apr_2023 %>% 
+  filter(date_time >= ymd("2023-02-09") & date_time <= ymd("2023-04-05"))
+  
+kanewai_spring_oxygen_plot <- ggplot(data = oxygen_kanspring_trimmed, aes(x = date_time, 
+                                                      y = dissolved_oxygen_mg_l)) + 
+  geom_line() +
+  theme_minimal() +
+  labs(title = "Kanewai Dissolved Oxygen Spring",
+       x = "Date & Time",
+       y = "Dissolved Oxygen (mg/l)")
+  
+
+ggplotly(kanewai_spring_oxygen_plot)
+```
+
+```{r Oxygen Kalauhaihai Spring}
+oxygen_kalspring_trimmed <- oxygen_kalauhaihai_garage_FebApr2023 %>% 
+  filter(date_time >= ymd("2023-02-17") & date_time <= ymd("2023-04-05"))
+  
+kalauhaihai_spring_oxygen_plot <- ggplot(data = oxygen_kalspring_trimmed, aes(x = date_time, 
+                                                      y = dissolved_oxygen_mg_l)) + 
+  geom_line() +
+  theme_minimal() +
+  labs(title = "Kalauhaihai Dissolved Oxygen Spring",
+       x = "Date & Time",
+       y = "Dissolved Oxygen (mg/l)")
+  
+
+ggplotly(kalauhaihai_spring_oxygen_plot)
 ```
 
 

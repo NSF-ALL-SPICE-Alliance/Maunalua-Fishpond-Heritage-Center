@@ -15,59 +15,59 @@ library(readr)
 ```
 
 
-Reading in Data
+#Reading in Data
 As of May 25, 8 Data Files read in
   - 2 Conductivity
   - 2 Oxygen
   - 3 pH
   - 1 Temperature
   
-```{r}
+```{r conductivity_kalauhaihai_garage_FebApr2023}
 conductivity_kalauhaihai_garage_FebApr2023 <- read_csv(here("raw_data/kalauhaihai/data_conductivity_FebApr2023_KalauhaihaiGarage_21415543.csv"))
 ```
 
-```{r}
+```{r conductivity_kalauhaihai_OctNov2022}
 conductivity_kalauhaihai_OctNov2022 <- read_tsv(here("raw_data/kalauhaihai/data_conductivity_Kalauhaihai_Oct-Nov2022.txt"))
 ```
 
-```{r}
+```{r oxygen_kalauhaihai_garage_FebApr2023}
 oxygen_kalauhaihai_garage_FebApr2023 <- read_csv(here("raw_data/kalauhaihai/Data_oxygen_FebApr2023_KalauhaihaiGarage_21446085.csv"))
 ```
 
-```{r}
+```{r oxygen_kalauhaihai_OctNov2022}
 oxygen_kalauhaihai_OctNov2022 <- read_tsv(here("raw_data/kalauhaihai/data_oxygen_Kalauhaihai_Oct-Nov2022.txt"))
 ```
 
-```{r}
+```{r pH_kalauhaihai_garage_FebApr2023}
 pH_kalauhaihai_garage_FebApr2023 <- read_csv(here("raw_data/kalauhaihai/data_pH_FebApr2023_KalauhaihaiGarage_20839036.csv"))
 ```
 
-```{r}
+```{r pH_kalauhaihai_OctNov2022}
 pH_kalauhaihai_OctNov2022 <-
   read_tsv(here("raw_data/kalauhaihai/data_pH_Kalauhaihai_SN20839036_Oct-Nov2022.txt"))
 ```
 
-```{r}
+```{r pH_kalauhaihai_Apr2022}
 pH_kalauhaihai_Apr2022 <-
   read_tsv(here("raw_data/kalauhaihai/data_pH_Kalauhaihai_SN20839036_Apr2022.txt"), skip = 1)
 ```
 
 
-```{r}
+```{r raw_temp_kalauhaihai_garage_Spring_2022}
 raw_temp_kalauhaihai_garage_Spring_2022 <- read.csv(here("raw_data/kalauhaihai/data_temp_Kalauhaihai_Garage_Spring_2022.csv"), header = TRUE)
 ```
 sets the first line as a header, Im not sure if this is truly needed. HOWEVER, I imported with the name raw_temp because the format is really weird. 
 
-```{r}
+```{r temp_kalauhaihai_garage_Spring_2022}
 temp_kalauhaihai_garage_Spring_2022 <- raw_temp_kalauhaihai_garage_Spring_2022[seq(2, nrow(raw_temp_kalauhaihai_garage_Spring_2022), by = 2), ]
 ```
 This code skips every EVEN line. In the raw data, there was an empty line between each 
 element. temp_kalauhaihai_garage_Spring_2022 is the main data set
 
 
-Data Cleaning 
+#Data Cleaning 
 
-```{r}
+```{r conductivity_kalauhaihai_garage_FebApr2023}
 #Conductivity kalauhaihai, garage, FEB_APR 2023
 
 # Clean Column Names
@@ -96,7 +96,7 @@ conductivity_kalauhaihai_garage_FebApr2023 <- conductivity_kalauhaihai_garage_Fe
   select(date_time, low_range_microSiemens, high_range_microSiemens, temp_celsius)
 ```
 
-```{r}
+```{r conductivity_kalauhaihai_OctNov2022}
 #Combine Date and Time Column/// FIXED
 #Conductivity kalauhaihai, OCT_NOV 2022
 
@@ -129,7 +129,7 @@ conductivity_kalauhaihai_OctNov2022 <- conductivity_kalauhaihai_OctNov2022 %>%
 
 ```
 
-```{r}
+```{r oxygen_kalauhaihai_garage_FebApr2023}
 #Oxygen kalauhaihai, garage, FEB_APR 2023
 
 #Clean Column Names
@@ -146,7 +146,7 @@ oxygen_kalauhaihai_garage_FebApr2023 <- oxygen_kalauhaihai_garage_FebApr2023 %>%
   select(date_time, dissolved_oxygen_mg_l, temp_celsius)
 ```
 
-```{r}
+```{r oxygen_kalauhaihai_OctNov2022}
 #Combine Date and Time Column/// FIXED
 #Oxygen kalauhaihai, garage, OCT_NOV 2022
 
@@ -166,7 +166,7 @@ oxygen_kalauhaihai_OctNov2022 <- oxygen_kalauhaihai_OctNov2022 %>%
   select(date_time, dissolved_oxygen_mg_l, temp_celsius)
 ```
 
-```{r}
+```{r pH_kalauhaihai_Apr2022}
 #pH, kalauhaihai, APR 2022
 #date_time class is "dttm"
 
@@ -191,7 +191,7 @@ pH_kalauhaihai_Apr2022 <- pH_kalauhaihai_Apr2022 %>%
   select(date_time, temp_celsius, mv, pH)
 ```
 
-```{r}
+```{r pH_kalauhaihai_garage_FebApr2023}
 #pH, kalauhaihai, FEB_APR 2023
 
 # Clean names
@@ -216,7 +216,7 @@ pH_kalauhaihai_garage_FebApr2023 <- pH_kalauhaihai_garage_FebApr2023 %>%
 
 ```
 
-```{r}
+```{r pH_kalauhaihai_OctNov2022}
 #Combine Date and Time Column/// FIXED
 #pH, kalauhaihai, OCT_NOV 2022
 
@@ -240,7 +240,7 @@ pH_kalauhaihai_OctNov2022 <- pH_kalauhaihai_OctNov2022 %>%
 
 ```
 
-```{r}
+```{r temp_kalauhaihai_garage_Spring_2022}
 #temp, kalauhaihai, garage, Spring 2022
 
 #Change column names

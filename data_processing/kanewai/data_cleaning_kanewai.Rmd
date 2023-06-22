@@ -16,48 +16,48 @@ library(readr)
 
 
 
-Reading in Data
+#Reading in Data
 As of May 25, 8 Data Files read in
   - 1 Conductivity
   - 1 Oxygen
   - 1 pH
   - 5 Temperature
   
-```{r}
+```{r conductivity_kanewai_spring_rock_feb_apr_2023}
 conductivity_kanewai_spring_rock_feb_apr_2023 <- read_csv(here("raw_data/kanewai/data_conductivity_FebApr2023_ KanewaiSpringRock_21415544.csv"))
 ```
 
-```{r}
+```{r oxygen_kanewai_spring_rock_feb_apr_2023}
 oxygen_kanewai_spring_rock_feb_apr_2023 <- read_csv(here("raw_data/kanewai/data_oxygen_FebApr2023_KanewaiSpringRock_21515403.csv"))
 ```
 
-```{r}
+```{r pH_kanewai_spring_rock_feb_apr_2023}
 pH_kanewai_spring_rock_feb_apr_2023 <- read_csv(here("raw_data/kanewai/data_pH_FebApr2023_KanewaiSpringRock_21433529.csv"))
 ```
 
-```{r}
+```{r temp_kanewai_springledge_feb_apr_2023}
 temp_kanewai_springledge_feb_apr_2023 <- read_csv(here("raw_data/kanewai/data_temp_FebApr2023_KanewaiSpringLedge_20970092.csv"))
 ```
 
-```{r}
+```{r temp_kanewai_springledge_norfolk_feb_apr_2023}
 temp_kanewai_springledge_norfolk_feb_apr_2023 <- read_csv(here("raw_data/kanewai/data_temp_FebApr2023_KanewaiFishpondLedgeEdgeNorfolk_20970108.csv"))
 ```
 
-```{r}
+```{r temp_kanewai_xmasberry_feb_apr_2023}
 temp_kanewai_xmasberry_feb_apr_2023 <- read_csv(here("raw_data/kanewai/data_temp_FebApr2023_KanewaiFishpondShadeUnderXmasBerry_21445019.csv"))
 ```
 
-```{r}
+```{r temp_kanewai_spring_coconuttree_2022}
 temp_kanewai_spring_coconuttree_2022 <- read_csv(here("raw_data/kanewai/data_temp_Kanewai_Cocunut_Tree_Spring_2022.csv"))
 ```
 
-```{r}
+```{r temp_kanewai_spring_auwai_2022}
 temp_kanewai_spring_auwai_2022 <- read_csv(here("raw_data/kanewai/data_temp_Kanewai_Auwai_Spring_2022.csv"))
 ```
 
-Data Cleaning 
+#Data Cleaning 
 
-```{r}
+```{r conductivity_kanewai_spring_rock_feb_apr_2023}
 #Conductivity kanewai, spring rock, FEB_APR 2023
 
 # Clean Column Names
@@ -77,11 +77,13 @@ colnames(conductivity_kanewai_spring_rock_feb_apr_2023)[which(names(conductivity
 # Select relevant columns 
 
 conductivity_kanewai_spring_rock_feb_apr_2023 <- conductivity_kanewai_spring_rock_feb_apr_2023 %>% 
-  select(date_time, high_range_microSiemens, temp_celsius)
+  select(date_time, high_range_micro_siemens, temp_celsius)
+
+conductivity_kanewai_spring_rock_feb_apr_2023$date_time <- mdy_hms(conductivity_kanewai_spring_rock_feb_apr_2023$date_time)
 
 ```
 
-```{r}
+```{r oxygen_kanewai_spring_rock_feb_apr_2023}
 #Oxygen kanewai, spring rock, FEB_APR 2023
 
 #Change column names
@@ -96,9 +98,11 @@ colnames(oxygen_kanewai_spring_rock_feb_apr_2023)[which(names(oxygen_kanewai_spr
 oxygen_kanewai_spring_rock_feb_apr_2023 <- oxygen_kanewai_spring_rock_feb_apr_2023 %>%
   select(date_time, dissolved_oxygen_mg_l, temp_celsius)
 
+oxygen_kanewai_spring_rock_feb_apr_2023$date_time <- mdy_hms(oxygen_kanewai_spring_rock_feb_apr_2023$date_time)
+
 ```
 
-```{r}
+```{r pH_kanewai_spring_rock_feb_apr_2023}
 #pH, kanewai, spring rock, FEB_APR 2023
 
 #Change column names
@@ -117,7 +121,7 @@ pH_kanewai_spring_rock_feb_apr_2023 <- pH_kanewai_spring_rock_feb_apr_2023 %>%
 
 ```
 
-```{r}
+```{r temp_kanewai_spring_auwai_2022}
 #temp, kanewai, spring auwai, 2022
 
 #Change column names
@@ -131,7 +135,7 @@ temp_kanewai_spring_auwai_2022 <- temp_kanewai_spring_auwai_2022 %>%
 
 ```
 
-```{r}
+```{r temp_kanewai_spring_coconuttree_2022}
 #temp, kanewai, spring auwai, 2022
 
 #Change column names
@@ -145,7 +149,7 @@ temp_kanewai_spring_coconuttree_2022 <- temp_kanewai_spring_coconuttree_2022 %>%
 
 ```
 
-```{r}
+```{r temp_kanewai_springledge_feb_apr_2023}
 #temp, kanewai, springledge, FEB_APR 2023
 
 #Change column names
@@ -159,7 +163,7 @@ temp_kanewai_springledge_feb_apr_2023 <- temp_kanewai_springledge_feb_apr_2023 %
 
 ```
 
-```{r}
+```{r temp_kanewai_springledge_norfolk_feb_apr_2023}
 #temp, kanewai, springledge norfolk, FEB_APR 2023
 
 #Change column names
@@ -173,7 +177,7 @@ temp_kanewai_springledge_norfolk_feb_apr_2023 <- temp_kanewai_springledge_norfol
 
 ```
 
-```{r}
+```{r temp_kanewai_xmasberry_feb_apr_2023}
 #temp, kanewai, xmasberry, FEB_APR 2023
 
 #Change column names

@@ -1,0 +1,81 @@
+---
+title: "Hinas Graphs"
+author: "Anson"
+date: "2023-06-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(janitor)
+library(lubridate)
+library(readr)
+library(ggplot2)
+```
+
+```{r}
+pH_kalauhaihai_garage_FebApr2023 <- read_csv(here("raw_data/kalauhaihai/data_pH_FebApr2023_KalauhaihaiGarage_20839036.csv"))
+```
+
+```{r}
+pH_kalauhaihai_OctNov2022 <-
+  read_tsv(here("raw_data/kalauhaihai/data_pH_Kalauhaihai_SN20839036_Oct-Nov2022.txt"))
+```
+
+```{r}
+#Combine Date and Time Column/// FIXED
+#pH, kalauhaihai, OCT_NOV 2022
+
+#Change column names
+
+colnames(pH_kalauhaihai_OctNov2022)[which(names(pH_kalauhaihai_OctNov2022) == "pH c:4")] <- "pH"
+
+colnames(pH_kalauhaihai_OctNov2022)[which(names(pH_kalauhaihai_OctNov2022) == "mV (mv) c:2")] <- "mv"
+
+colnames(pH_kalauhaihai_OctNov2022)[which(names(pH_kalauhaihai_OctNov2022) == "Temp (°C) c:1")] <- "temp_celsius"
+
+#Combine date and time columns
+pH_kalauhaihai_OctNov2022 <- pH_kalauhaihai_OctNov2022 %>%
+  unite(date_time, Date, Time, sep = " ")
+
+pH_kalauhaihai_OctNov2022$date_time <- mdy_hms(pH_kalauhaihai_OctNov2022$date_time)
+
+#Select Columns
+pH_kalauhaihai_OctNov2022 <- pH_kalauhaihai_OctNov2022 %>%
+  select(date_time, temp_celsius, mv, pH)
+
+```
+
+```{r}
+#pH, kalauhaihai, FEB_APR 2023
+
+# Clean names
+
+pH_kalauhaihai_garage_FebApr2023 <- pH_kalauhaihai_garage_FebApr2023 %>% 
+  clean_names()
+
+#Change column names
+
+colnames(pH_kalauhaihai_garage_FebApr2023)[which(names(pH_kalauhaihai_garage_FebApr2023) == "ch_3_p_h_p_h")] <- "pH"
+
+colnames(pH_kalauhaihai_garage_FebApr2023)[which(names(pH_kalauhaihai_garage_FebApr2023) == "ch_2_millivolts_mv")] <- "mv"
+
+colnames(pH_kalauhaihai_garage_FebApr2023)[which(names(pH_kalauhaihai_garage_FebApr2023) == "ch_1_temperature_c")] <- "temp_celsius"
+
+colnames(pH_kalauhaihai_garage_FebApr2023)[which(names(pH_kalauhaihai_garage_FebApr2023) == "date_time_hst")] <- "date_time"
+
+pH_kalauhaihai_garage_FebApr2023$date_time <- mdy_hms(pH_kalauhaihai_garage_FebApr2023$date_time)
+
+pH_kalauhaihai_garage_FebApr2023 <- pH_kalauhaihai_garage_FebApr2023 %>%
+  select(date_time, temp_celsius, mv, pH)
+
+```
+
+```{r}
+ggplot(pH_kalauhaihai_OctNov2022, aes(date_time, pH)) +
+  geom_line()
+```
+
+
